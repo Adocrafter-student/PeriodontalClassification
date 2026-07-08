@@ -1,0 +1,44 @@
+augmentation:
+  brightness: 0.15
+  contrast: 0.15
+  gaussian_blur_prob: 0.2
+  gaussian_blur_sigma:
+  - 0.5
+  - 2.0
+  horizontal_flip: 0.5
+  random_erasing_prob: 0.1
+  rotation_degrees: 10
+classes:
+  1: Mild
+  2: Moderate
+  3: Severe
+dataset:
+  csv: ../brar_anotation_dataset/brar/meta_data.csv
+  random_seed: 42
+  root: ../brar_anotation_dataset/brar
+  splits_dir: data/splits
+  test_ratio: 0.15
+  val_ratio: 0.15
+model:
+  backbone: efficientnet_b4
+  dropout: 0.4
+  metadata_features: 2
+  num_classes: 3
+  pretrained: true
+  use_metadata: true
+output:
+  name: efficientnet_b4
+  project: runs/brar_classification
+training:
+  batch_size: 4
+  device: 0
+  epochs: 50
+  image_size: 448
+  label_smoothing: 0.1
+  lr: 0.0003
+  num_workers: 4
+  patience: 15
+  scheduler: cosine
+  use_class_weights: true
+  warmup_epochs: 3
+  weight_decay: 0.01

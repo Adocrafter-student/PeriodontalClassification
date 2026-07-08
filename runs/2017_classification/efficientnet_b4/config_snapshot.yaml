@@ -1,0 +1,49 @@
+augmentation:
+  brightness: 0.12
+  contrast: 0.12
+  gaussian_blur_prob: 0.15
+  gaussian_blur_sigma:
+  - 0.5
+  - 1.5
+  horizontal_flip: 0.5
+  random_erasing_prob: 0.05
+  rotation_degrees: 8
+classes:
+  1: Stage I
+  2: Stage II
+  3: Stage III
+  4: Stage IV
+dataset:
+  classification_csv: ../brar_anotation_dataset/brar/2017_classification.csv
+  metadata_csv: ../brar_anotation_dataset/brar/meta_data.csv
+  random_seed: 42
+  root: ../brar_anotation_dataset/brar
+  splits_dir: data/splits
+  test_ratio: 0.15
+  unlabeled_policy: exclude
+  val_ratio: 0.15
+model:
+  backbone: efficientnet_b4
+  dropout: 0.4
+  metadata_features: 2
+  num_classes: 4
+  pretrained: false
+  use_metadata: false
+output:
+  name: efficientnet_b4
+  project: runs/2017_classification
+training:
+  batch_size: 4
+  device: 0
+  epochs: 60
+  image_size: 448
+  init_from: runs/brar_classification/efficientnet_b4/weights/best.pt
+  label_smoothing: 0.05
+  lr: 0.0001
+  monitor: macro_f1
+  num_workers: 4
+  patience: 15
+  scheduler: cosine
+  use_class_weights: true
+  warmup_epochs: 3
+  weight_decay: 0.01

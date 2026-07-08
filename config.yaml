@@ -1,0 +1,57 @@
+# 2017 Periodontal Staging Pipeline - master configuration
+# Ground truth comes only from the professor-reviewed labels in
+# 2017_classification.csv. The original BRAR Level column is retained only as
+# metadata/audit context and is not used as the supervised target.
+
+dataset:
+  root: "../brar_anotation_dataset/brar"
+  metadata_csv: "../brar_anotation_dataset/brar/meta_data.csv"
+  classification_csv: "../brar_anotation_dataset/brar/2017_classification.csv"
+  splits_dir: "data/splits"
+  val_ratio: 0.15
+  test_ratio: 0.15
+  random_seed: 42
+  unlabeled_policy: "exclude"
+
+classes:
+  1: "Stage I"
+  2: "Stage II"
+  3: "Stage III"
+  4: "Stage IV"
+
+model:
+  backbone: "efficientnet_b4"
+  pretrained: false
+  num_classes: 4
+  dropout: 0.4
+  use_metadata: false
+  metadata_features: 2
+
+training:
+  epochs: 60
+  batch_size: 4
+  lr: 0.0001
+  weight_decay: 0.01
+  image_size: 448
+  patience: 15
+  device: 0
+  num_workers: 4
+  use_class_weights: true
+  scheduler: "cosine"
+  warmup_epochs: 3
+  label_smoothing: 0.05
+  monitor: "macro_f1"
+  init_from: "runs/brar_classification/efficientnet_b4/weights/best.pt"
+
+augmentation:
+  horizontal_flip: 0.5
+  rotation_degrees: 8
+  brightness: 0.12
+  contrast: 0.12
+  gaussian_blur_prob: 0.15
+  gaussian_blur_sigma: [0.5, 1.5]
+  random_erasing_prob: 0.05
+
+output:
+  project: "runs/2017_classification"
+  name: "efficientnet_b4"

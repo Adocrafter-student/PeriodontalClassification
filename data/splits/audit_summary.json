@@ -1,0 +1,36 @@
+{
+    "labels_loaded":  252,
+    "stage_counts":  {
+                         "1":  10,
+                         "2":  53,
+                         "3":  140,
+                         "4":  49
+                     },
+    "duplicate_label_ids":  0,
+    "duplicate_metadata_ids":  0,
+    "duplicate_image_ids":  0,
+    "missing_labeled_images":  0,
+    "missing_metadata_rows":  0,
+    "images_without_2017_label":  736,
+    "split_counts":  {
+                         "train":  {
+                                       "1":  6,
+                                       "2":  37,
+                                       "3":  98,
+                                       "4":  35
+                                   },
+                         "val":  {
+                                     "1":  2,
+                                     "2":  8,
+                                     "3":  21,
+                                     "4":  7
+                                 },
+                         "test":  {
+                                      "1":  2,
+                                      "2":  8,
+                                      "3":  21,
+                                      "4":  7
+                                  }
+                     },
+    "unlabeled_policy":  "exclude"
+}
