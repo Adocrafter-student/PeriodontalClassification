@@ -1,0 +1,13 @@
+flowchart TD
+    I[Panorama: preserve aspect ratio; 448 x 448 input] --> E[ImageNet-initialized EfficientNet-B4]
+    I --> D[Frozen DINOv2: whole image]
+    I --> R[Frozen DINOv2: whole image + three regions]
+    E --> EF[Global pooled convolutional features]
+    D --> DF[384-dimensional image vector]
+    R --> RF[Concatenate whole vector and mean regional vector: 768 features]
+    EF --> EH[Train encoder and 256-unit classification head]
+    DF --> DH[Fit scaler and weighted logistic regression]
+    RF --> RH[Fit scaler and weighted logistic regression]
+    EH --> P[Four stage probabilities]
+    DH --> P
+    RH --> P

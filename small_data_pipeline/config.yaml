@@ -1,0 +1,34 @@
+# Paths are relative to this file, not your terminal directory.
+dataset:
+  root: ../../brar_anotation_dataset/brar
+  labels: ../../brar_anotation_dataset/brar/2017_classification.csv
+  metadata: ../../brar_anotation_dataset/brar/meta_data.csv
+  # Optional CSV: image_id,patient_id. Supply if IDs are not unique patients.
+  patient_groups: null
+output: artifacts
+seed: 42
+outer_folds: 5
+inner_folds: 3
+device: cuda:0
+# Windows-safe; raise only after checking worker memory on your machine.
+num_workers: 0
+dino:
+  model: vit_small_patch14_dinov2.lvd142m
+  image_size: 448
+  batch_size: 4
+  # Whole panorama + left/central/right full-height square crops.
+  views: global_regions
+  c_values: [0.01, 0.1, 1.0, 10.0]
+efficientnet:
+  model: efficientnet_b4.ra2_in1k
+  image_size: 448
+  batch_size: 4
+  epochs: 60
+  patience: 15
+  validation_fraction: 0.15
+  lr: 0.0001
+  weight_decay: 0.01
+  label_smoothing: 0.05
+  dropout: 0.4
+  # Mixed precision for the RTX 4060; no old BRAR weights are loaded.
+  amp: true

@@ -1,0 +1,7 @@
+flowchart TD
+    A[Local BRAR: 988 images across levels 1, 2 and 3] --> C[Match image IDs and audit files]
+    B[Professor CSV: 252 IDs with Stage I–IV labels] --> C
+    C --> D[252 labeled images: all match original level_3]
+    C --> E[736 without stage labels: excluded]
+    D --> F[Five shared outer folds]
+    M[Metadata: audit only, not predictor input] -.-> C

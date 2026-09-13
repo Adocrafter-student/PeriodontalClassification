@@ -1,0 +1,13 @@
+flowchart TD
+    A[One of five shared outer folds] --> B[Development: 201 or 202 images]
+    A --> T[Held-out test: 51 or 50 images]
+    B --> C[EfficientNet: 170/171 fitting + 31 validation images]
+    B --> D[DINOv2: three inner folds; scaler fitted within each]
+    C --> E[Select epoch by validation macro F1]
+    D --> F[Select C by mean inner macro F1]
+    E --> G[Reset initialization; refit on all development images]
+    F --> H[Frozen encoder; refit scaler and classifier on all development images]
+    G --> P[Predict held-out fold once]
+    H --> P
+    T --> P
+    P --> O[Repeat five folds; pool held-out predictions]

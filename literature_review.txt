@@ -1,0 +1,212 @@
+
+
+LITERATURE REVIEW
+
+
+Periodontitis remains one of the most consequential chronic oral diseases because it progressively destroys the tooth-supporting apparatus, contributes substantially to tooth loss, and continues to impose a large global disease burden. At the same time, the last eight years have seen an accelerated convergence of two developments: the consolidation of the 2017 World Workshop framework published in 2018 as the dominant language for contemporary periodontal classification, and the rapid expansion of artificial intelligence research aimed at detecting radiographic bone loss, assigning stage or grade labels, and supporting prognostic decision-making from dental images. The result is a field that is clinically mature in its conceptual framework but methodologically uneven in how that framework is operationalized in imaging datasets and AI pipelines (Lee et al., 2025).  For our paper centered on staging and grading this literature review has to show how the field moved from conventional clinical-radiographic diagnosis, into the staging-and-grading era, and then into AI-supported radiographic interpretation. Just as importantly, it must explain where the literature is still internally inconsistent: radiographic severity labels are often treated as if they were interchangeable with full 2018 clinical stage labels, early disease remains much harder to classify than advanced disease, and datasets frequently omit the contextual variables needed for a truly guideline-faithful stage or grade assignment. Recent systematic reviews and meta-analyses now make that tension visible much more clearly than the early AI literature did (West et al., 2025).
+
+2.1 Clinical and radiographic diagnosis of periodontitis
+
+Contemporary periodontal diagnosis still begins clinically. The most authoritative recent reviews emphasize that bleeding on probing, periodontal pockets, recession, furcation involvement, and radiographic bone loss all belong to the diagnostic picture, but they do not contribute in identical ways. Clinical parameters remain the primary basis for identifying periodontal health or disease, while radiography serves as a crucial adjunct for judging the loss of hard tissue support, confirming structural changes, and helping define severity and treatment complexity. This distinction matters because it prevents a common methodological mistake in AI literature: equating radiographic classification with complete clinical diagnosis (Salvi et al., 2023). The imaging literature consistently distinguishes between modalities rather than treating “dental radiographs” as a single category. Periapical and bitewing radiographs are generally regarded as more accurate for localized assessment of alveolar bone level because they provide higher spatial resolution and clearer visualization of the interproximal crest. Panoramic radiography, by contrast, is less precise for localized measurement but highly valuable because it captures the entire dentition and supporting structures in a single acquisition, which makes it practical for screening, baseline documentation, epidemiologic work, and broad staging workflows. CBCT adds three-dimensional anatomical detail, but its higher cost and radiation burden mean it is usually reserved for complex or specifically indicated cases rather than routine periodontal staging (Salvi et al., 2023). This modality-specific logic is now supported not only by narrative reviews but also by recent meta-analysis. Lee et al. (2025), in a meta-analysis directly comparing binary and staging AI classifications across imaging modalities, concluded that panoramic radiographs are particularly suitable for screening and staging, while periapical radiographs offer stronger support for early detection. Their pooled estimates showed that in staging tasks, panoramic imaging had the highest pooled accuracy and specificity, whereas periapical imaging showed higher sensitivity. This is an important synthesis point for this research because it explains why stage-classification studies often favor panoramic datasets, even though clinicians may still prefer periapical or bitewing radiographs when the question is localized early bone loss.
+Fidyawati and colleagues’ 2024 comparative study of early periodontitis showed that pocket depth was the most statistically significant single factor in early diagnosis, while radiographic alveolar crest irregularity and periodontal ligament widening were relevant but less decisive. In other words, radiographs are indispensable for structural confirmation, but subtle early-stage disease is still inherently multimodal in practice. That finding aligns with broader diagnostic reviews: radiographic interpretation becomes more reliable as destruction becomes more visually manifest, while the earliest cases remain the most vulnerable to under- or over-classification (Fidyawati et al., 2024). Panoramic radiography nevertheless remains highly relevant because periodontology often operates in real-world dental systems where panoramic images are already available. Machado and colleagues’ 2020 study, though older than the preferred core evidence window, remains useful because it specifically evaluated panoramic radiographic bone loss against clinical examination under the newer case-definition logic. Their work showed that a panoramic radiographic bone-loss method could function as a screening tool in a 456-patient cohort, which is exactly the kind of evidence that justifies panoramic-image-based AI for surveillance and staging support without overstating it as a replacement for clinical examination (Machado et al., 2020).
+
+2.2 The contemporary classification framework
+Any contemporary thesis on periodontitis staging and grading must be explicitly anchored in the 2017 World Workshop outputs published in 2018. Tonetti, Greenwell, and Kornman proposed a classification architecture in which stage captures severity and complexity of management, while grade estimates the biological rate of progression and future risk. This was not a cosmetic revision of terminology. It replaced the older chronic-versus-aggressive logic with a more multidimensional framework intended to integrate disease severity, management difficulty, radiographic findings, tooth loss, and risk modifiers into a single clinically meaningful case description (Tonetti et al., 2018).
+
+For staging, the framework uses severity thresholds and complexity factors. When CAL is unavailable, radiographic bone loss can be used. The thresholds are explicit: Stage I corresponds to radiographic bone loss in the coronal third of the root of less than 15%, Stage II to 15%-33%, and Stage III/IV to destruction extending to the mid-third of the root and beyond. The Stage III–IV distinction is especially important because it does not depend on radiographic severity alone. It also depends on tooth loss due to periodontitis and on complexity markers such as deep pockets, vertical defects, furcation involvement, ridge defects, bite collapse, drifting, flaring, masticatory dysfunction, and reduced functional dentition. This is precisely why many imaging-only datasets can support severity labeling more readily than full clinical staging  (Tonetti et al., 2018). For grading, the 2018 framework allows both direct and indirect evidence of progression. Direct evidence is based on observed CAL or radiographic progression over time; indirect evidence uses the well-known % bone loss/age ratio. In this system Grade A corresponds to <0.25, Grade B to 0.25–1.0, and Grade C to >1.0. Smoking and glycemic control can modify the grade upward, and Tonetti’s framework states that when direct evidence is lacking clinicians should assume Grade B and then look for evidence shifting the case toward Grade A or Grade C. This indirect grading logic is central to the present thesis topic because it establishes the formal clinical legitimacy of age-normalized radiographic severity indices (Tonetti et al., 2018). 
+Table 2.2. Adapted from Tonetti et al. (2018). 
+Component
+Main meaning
+Typical factors
+Stage I
+Initial periodontitis
+Mild attachment/bone loss
+Stage II
+Moderate periodontitis
+More established destruction, usually manageable complexity
+Stage III
+Severe periodontitis
+Advanced attachment/bone loss, possible tooth loss, higher treatment complexity
+Stage IV
+Advanced periodontitis with functional impact
+Severe destruction plus bite/function problems, extensive rehabilitation needs
+Grade A
+Slow progression
+Low progression evidence/risk
+Grade B
+Moderate progression
+Expected progression pattern
+Grade C
+Rapid progression
+High progression risk, often modified by smoking/diabetes
+
+
+
+The literature published after 2018 shows that acceptance of the framework and ease of implementation are not the same thing. West et al. (2025) concluded that the 2018 classification performs well overall compared with previous systems, but they also identified barriers that have limited comprehensive uptake in daily practice. Their review highlighted recurrent diagnostic gray zones, especially in separating gingivitis from Stage I and Stage III from Stage IV, and emphasized that grade assignment becomes less reliable when longitudinal data and grade modifiers are absent. This implementation-focused review is highly valuable in a literature review because it prevents the framework from being presented as clinically simple when it is not.
+Marini et al. (2021) provided an important reliability study that quantified this implementation problem. In their study of periodontal experts, general dentists, and undergraduate students classifying 25 fully documented cases, Fleiss’ kappa was 0.48 for stage, 0.37 for extent, and 0.45 for grade. Agreement with the gold standard for all three components simultaneously was achieved in less than half of cases. Those figures are not evidence against the framework, but rather show that classification depends heavily on calibration, documentation quality, and decision support. For this research, these findings have direct consequences: the difficulty of AI classification cannot be understood without also acknowledging the difficulty of human classification under the same rubric.
+
+2.3 Recent AI literature on radiographic bone-loss detection and classification
+The recent AI literature is no longer limited to simple disease-versus-no-disease classifiers. Li et al. (2023) synthesized thirteen studies in a systematic review and meta-analysis and reported a pooled sensitivity of 0.88, specificity of 0.82, and SROC area of 0.92, concluding that deep-learning-based periodontitis classification was generally accurate. However, their review also identified important structural weaknesses in the field: most studies relied on hospital-only data, few included external validation, demographic information was usually missing, and radiographic bone loss was often used as a substitute when clinical attachment loss would have been the stronger clinical reference.
+
+Lee et al. (2025) advanced this discussion by directly comparing binary and staging AI classifications across imaging modalities. Their meta-analysis showed that diagnostic performance differed by both task type and radiographic modality. In binary classification, periapical imaging showed sensitivity of 87.2% and specificity of 81.5%, while panoramic radiographs reached accuracy of 88.2%. In staging classification, panoramic images achieved the highest accuracy and specificity, at 88.9% and 85.4%, respectively, whereas periapical images showed higher sensitivity, at 76.4%. These findings support a modality-specific interpretation of AI-based periodontal diagnosis: panoramic radiographs appear especially useful for screening and staging, while periapical radiographs remain important for early detection.
+Khubrani et al. (2025) made this critique sharper by using APPRAISE-AI rather than relying only on conventional risk-of-bias tools. Their systematic review examined 30 studies, with 10 eligible for meta-analysis, and found that only seven studies reached high-quality APPRAISE-AI scores, while none reached the very-high-quality threshold. Most studies were rated as intermediate in quality. Even so, pooled performance remained encouraging, with sensitivity of 87%, specificity of 76%, and accuracy of 84%. The contribution of this review is not only the summary statistics, but also its demonstration that apparently strong performance figures can coexist with weak transparency, inconsistent reporting, and limited reproducibility.
+Recent reviews have broadened the scope of AI research in periodontology beyond isolated radiographic proof-of-concept studies. Zhang et al. (2025) focused specifically on AI models for periodontitis classification, while Chatzopoulos et al. (2025) surveyed clinical applications of AI throughout periodontology. Together, these reviews show that the field has moved toward a larger ecosystem that includes staging, grading, prognosis, and adjunctive decision support. Their broader contribution is conceptual, they help situate radiographic AI not as a niche technical exercise, but as part of a wider shift toward data-driven periodontal diagnosis and management.
+Among primary studies, panoramic radiography remains the most common staging modality because it is well aligned with full-dentition assessment. Shon et al. (2022) provided one of the clearest four-stage panoramic studies in the literature. Using an integrated framework on dental panoramic radiographs, they reported an accuracy of 0.929, showing that a four-stage radiographic classifier can be built with performance that is clinically promising. Li et al. (2025) used 558 panoramic radiographs cropped into 7,359 individual teeth and reported overall accuracy, precision, recall, F1 score, and micro-average AUC of 0.72, 0.76, 0.64, 0.68, and 0.79, respectively. A further 2025 hybrid two-stage CNN study reported 0.80 accuracy on an external set of 100 radiographs, which is especially relevant because external validation remains rare in this literature. These studies collectively show that panoramic staging is feasible, but they also show that reported performance drops once tasks become more granular or externally validated.
+Periapical studies make a different contribution. Chen et al. (2024) used 336 periapical radiographic images and found that the model’s mean bone-loss deviation from periodontists’ annotations was 6.5%, the overall Pearson correlation with clinician assessment was 0.828, and total staging accuracy was 72.8%, with the strongest performance in Stage III at 97.0%. Ameli et al. (2024), using periapical radiographs and a combined U-Net/YOLO-v9 workflow, went a step further by predicting both stage and grade. Their model achieved 95.62% test accuracy for bone-loss segmentation, ICC values above 0.94 for agreement with clinical assessments, and especially strong performance in advanced stages and Grade C. Yet their own discussion makes the key limitation clear: the model performed much better in advanced disease than in early disease, and dataset imbalance remained a real issue. Periapical studies therefore illustrate both the strength of high-resolution local bone assessment and the fragility of early-category classification.
+
+Bitewing research is less abundant but highly relevant for early interproximal assessment. Erturk et al. (2025) used 1,752 bitewing images to classify healthy, mild, moderate, and severe periodontal bone-loss severity. Their reported test accuracy was 83.446%, with precision of 81.742%, recall of 80.883%, and F1 score of 81.090%. Methodologically, the study is important because it shows that bitewings can support stage-like severity stratification with respectable performance, while also introducing explainability mapping into the workflow. Conceptually, it supports the argument that bitewings deserve more attention in periodontal AI than they have yet received, particularly for early and interproximal disease.
+The literature is also increasingly interested in sub-features rather than only final stage labels. Kurt-Bayrakdar et al. (2024) used 1,121 panoramic radiographs to detect total alveolar bone loss, horizontal loss, vertical defects, and furcation involvement. Their AUC values were 0.951 for total alveolar bone loss, 0.910 for horizontal loss, 0.733 for vertical defects, and 0.868 for furcation defects. This study is especially useful analytically because it shows that not all periodontal radiographic targets are equally learnable. Horizontal loss is easier; vertical defects are substantially harder. That is directly relevant to the 2018 framework, where vertical defects and furcation involvement are part of the complexity profile that distinguishes milder from more advanced stages.
+Finally, recent studies have begun to move from stage assignment toward direct grading or prognostic support. Al Husaini et al. (2025) classified OPGs into Grade A, B, and C groups. Their dataset consisted of 250 people, and the study compared InceptionV3, InceptionV4, and ResNet-50, finding that ResNet-50 performed best. The importance of this paper is not only architectural comparison; it is that it treats periodontal bone-loss severity in grading terms rather than only as binary disease detection. That makes it particularly relevant to thesis work concerned with age-adjusted grade logic.
+
+Figure 2.1 Accuracy comparison between deep learning models.
+Note. Reprinted from Hasani et al. (2025).
+The large-scale detection literature also deserves mention because it shows how the field is changing at the engineering level. Dujic et al. (2023) evaluated automated bone-loss detection on 21,819 anonymized periapical radiographs, explicitly comparing several CNN and transformer-based approaches. Even when such studies do not directly output 2018 stage or grade labels, they matter because they develop the segmentation and landmark-localization infrastructure on which clinically meaningful classification later depends. In that sense, the field is increasingly layered: large detection studies build the measurement engine, while smaller clinically framed studies attempt to translate those measurements into stage and grade language.
+
+The following table compares representative recent radiograph-based AI studies in the field and emphasizes not only performance claims, but also what each study contributes methodologically and what it still leaves unresolved.
+Table 2.3. Comparison of radiograph-based AI studies
+Study
+Modality
+Sample scale
+Main task
+What the study does well
+What it still does not solve
+Shon et al., 2022
+Panoramic
+Institutional panoramic data plus open database support
+Four-stage classification
+Demonstrates that four-stage panoramic staging is feasible with very high reported accuracy
+Limited evidence on external validation and broad generalizability
+Li et al., 2025
+Panoramic
+558 panoramic radiographs, 7,359 tooth crops
+Tooth-level radiographic stage classification
+Provides a more demanding tooth-level staging pipeline and reports full classification metrics
+Performance is notably lower than simpler single-center proof-of-concept studies
+Widyaningrum et al., 2025
+Panoramic
+External test dataset of 100 radiographs
+Two-stage CNN detection and staging
+Valuable because it includes external validation, which is still rare
+External dataset remains relatively small
+Chen et al., 2024
+Periapical
+336 images, 390 teeth in test set
+Bone-loss measurement and stage classification
+Shows strong agreement with clinicians and especially high Stage III accuracy
+Early and subtle categories remain weaker
+Ameli et al., 2024
+Periapical
+1,000 training PA radiographs, 1,582 test images
+Segment BL, estimate %, predict stage and grade
+Moves beyond stage into grade prediction and reports excellent agreement with clinicians
+Data imbalance and early-category weakness remain major issues
+Erturk et al., 2025
+Bitewing
+1,752 bitewing images
+Four-level severity classification
+Demonstrates bitewing feasibility and adds explainability mapping
+Still framed as severity categories rather than fully documented clinical stages
+Kurt-Bayrakdar et al., 2024
+Panoramic
+1,121 panoramic radiographs
+Detect total, horizontal, vertical bone loss and furcation defects
+Shows that periodontal sub-features can be learned separately and reveals feature-specific difficulty
+Does not itself solve patient-level stage or grade assignment
+Al Husaini et al., 2025
+Panoramic OPG
+250 people
+Grade A/B/C classification
+Directly relevant to grading and model comparison
+Small base dataset and limited evidence on external robustness
+Hoss et al., 2023
+Periapical
+21,819 radiographs
+Automated bone-loss detection with multiple architectures
+Important for scale and for comparing CNN and newer architectures
+Not directly a 2018 stage/grade classification study
+
+
+2.4 Comparative synthesis of modalities and representative studies
+
+When the literature is read analytically rather than descriptively, the differences in reported performance begin to make sense. Panoramic studies often appear stronger in stage-classification tasks because they visualize the entire dentition and therefore fit the logic of population-level severity assessment, identification of the worst affected tooth, and patient-level disease overview. This helps explain why panoramic imaging performs best in recent staging meta-analysis and why many stage-classification studies continue to prefer it despite well-known limitations in geometric accuracy (Lee et al., 2025). In effect, panoramic radiography aligns with the scope of staging even when it is not the most precise tool for local measurement.
+
+Periapical and bitewing studies, by contrast, tend to be stronger where precise landmark localization matters. The DenPAR dataset paper makes this point indirectly by emphasizing that public datasets have historically been dominated by panoramic images with limited annotation depth, whereas periapical radiographs are particularly useful for tooth- and structure-level analysis because they can support CEJ points, apex points, alveolar crest lines, and segmentation masks (Rasnayaka et al., 2025). This helps explain why periapical studies are often better suited for measurement pipelines, lesion detail, and early or localized disease assessment, even if their field of view makes full-dentition stage inference less straightforward.
+The second major comparative pattern is that advanced disease is easier to classify than early disease. This is one of the most consistent findings across the recent literature. Chen et al. (2024) reported the strongest performance in Stage III in their periapical staging study, while Ameli et al. (2024) found that their periapical stage-and-grade model performed best in advanced stages and Grade C. West et al. (2025) similarly identified persistent clinical gray zones at the gingivitis–Stage I and Stage III–Stage IV boundaries, and Fidyawati et al. (2024) showed the continued importance of clinical probing when radiographic changes are still subtle. The implication is that model performance is not merely a function of architecture. It is deeply conditioned by the biological visibility of the target class and by the label ecology of the training data.
+A third pattern is that reported metrics frequently look better than the underlying study design deserves. Li et al. (2023) found that only a small minority of studies used external datasets, while Khubrani et al. (2025) found that most studies were intermediate in quality and none reached the very-high-quality threshold under APPRAISE-AI. These findings suggest that accuracy values in this field must be interpreted alongside study design, validation strategy, annotation transparency, and alignment with the 2018 classification criteria. A stage-classification paper trained and tested within one center on internally labeled radiographs is not equivalent, methodologically, to a study with external validation, transparent annotation protocols, and a direct connection between labels and 2018 criteria. In this field, the most informative question is often not “How high is the accuracy?” but “How valid is the label, and how transportable is the pipeline?”
+A fourth pattern is the gradual movement from end-point classification toward measurement-based pipelines. Studies such as Dujic et al. (2023) and Rasnayaka et al. (2025) are important not because they immediately solve staging or grading, but because they improve the measurement substrate: tooth segmentation, CEJ detection, root apex localization, and alveolar crest identification. Ameli et al. (2024) then shows how those measurements can be converted into bone-loss percentages and further into stage and grade predictions. This layered logic is likely to be more defensible in future thesis work than “black box” classifiers that jump directly from image pixels to patient-level labels without explicit structural reasoning.
+
+
+Table 2.4 synthesizes the modality-specific patterns identified across the reviewed literature, showing how each imaging type supports different AI tasks depending on its anatomical coverage, measurement precision, and clinical role.
+Table 2.4. Comparative Strengths and Limitations of Radiographic Modalities for AI-Based Periodontal Assessment
+Modality
+Main advantages in the literature
+Main weaknesses in the literature
+Best-supported AI use at present
+Panoramic radiographs
+Full-dentition coverage, practical screening, suitability for patient-level severity overview, strong staging performance in meta-analysis
+Distortion, overlap, lower local precision, weaker early-detail visualization
+Screening, broad staging, large-scale epidemiologic and dataset work
+Periapical radiographs
+High local resolution, strong landmark visibility, useful for CEJ/apex/crest measurement, better sensitivity for subtle changes
+Limited field of view, weaker direct support for patient-level whole-mouth staging
+Bone-loss measurement, early/localized assessment, measurement-driven stage/grade estimation
+Bitewing radiographs
+Strong interproximal bone-level visualization, useful for subtle proximal loss and structured severity grading
+Smaller literature base, fewer public datasets, often not aligned with full 2018 case context
+Interproximal severity classification and early structural assessment
+CBCT
+Three-dimensional defect visualization and complex anatomy
+Higher dose and cost, not routine for standard periodontal diagnosis
+Reserved complex-case analysis and advanced defect characterization
+
+
+
+2.5 Datasets, annotation ecosystems, and the BRAR dataset
+One of the clearest messages from recent literature is that data infrastructure has lagged behind model ambition. Li et al. (2023) noted that only three studies used external validation and that demographic information was often absent. Khubrani et al. (2025) similarly showed that reproducibility and reporting remained weak across much of the field. Those findings help explain why dataset papers are unusually important in this topic: they are not just repositories, but interventions in the research bottleneck itself. The newly emerging open datasets reflect this transition. Rasnayaka et al. (2025) introduced DenPAR as a Scientific Data resource containing 1,000 intra-oral periapical radiographs with tooth segmentation masks, CEJ points, apex points, alveolar bone-level annotations, and patient metadata such as age and sex. Its importance lies in annotation granularity: it is a landmark-rich periapical dataset designed for structural measurement tasks rather than merely image-level classification. That makes it highly relevant as a reference point for this research because it demonstrates the field’s shift toward explicit geometry-aware modeling.
+The BRAR dataset occupies a different but equally important niche. Xia et al. (2025) presented a multimodal panoramic dataset of 1,104 patients, integrating full-mouth panoramic radiographs, demographic information, and clinician-annotated patient- and tooth-level indicators, including missing teeth, implants, residual roots, and opposing functional pairs. Its central feature is the Bone Resorption Age Ratio (BRAR), defined as (BL/RL)/Age, where BL is radiographic bone loss on the most affected tooth and RL is the corresponding root length. This formula converts radiographic severity into an age-adjusted, unitless index intended to standardize cross-patient comparison of periodontal bone-resorption burden.
+The critical conceptual point is that BRAR is not simply another severity score. It is structurally close to the official indirect grading criterion in the 2018 framework. Tonetti et al. (2018) define indirect grading using the % bone loss/age ratio, with thresholds of <0.25, 0.25–1.0, and >1.0 corresponding to Grades A, B, and C. BRAR follows the same age-adjusted logic for Grade 1, Grade 2, and Grade 3. This means that the dataset is inherently more aligned with grading than with staging, although it may still be useful for deriving radiographic stage proxies. Stating this distinction clearly is important because it affects the theoretical validity of the labels and the accuracy of the methodological claims.
+At the same time, BRAR illustrates the gap between radiographic richness and full clinical classification. Xia et al. (2025) include age, sex, panoramic radiographs, missing teeth, implants, residual roots, functional opposing pairs, and expert-validated bone-loss grading. However, the 2018 staging framework requires more than radiographic severity alone. It also requires information about whether tooth loss is attributable to periodontitis, as well as complexity factors such as deep pockets, vertical defects, furcation involvement, mobility, severe ridge defects, masticatory dysfunction, bite collapse, drifting, flaring, and fewer than 20 remaining teeth due to periodontal breakdown (Tonetti et al., 2018). BRAR therefore contains several structural surrogates for advanced complexity, but not the full set of clinical variables required for a guideline-faithful Stage IV assignment. In that sense, it is both rich and incomplete.
+The BRAR paper is transparent about several limitations. Xia et al. (2025) note that the acquisition window was short, the dataset was single-center, longitudinal follow-up was unavailable, and panoramic imaging retains inherent two-dimensional constraints such as distortion and superimposition. The authors also emphasize that BRAR requires external validation in other populations and imaging settings. These limitations are central to interpreting the dataset, because they define the boundary between BRAR as a promising age-adjusted radiographic grading resource and BRAR as a fully generalizable clinical classification tool.
+
+The following table maps BRAR against the requirements of the 2018 periodontitis classification framework. This comparison clarifies where the dataset aligns naturally with the classification system and where additional annotation, clinical context, or methodological restraint remains necessary.
+Table 2.5. BRAR Dataset Alignment With 2018 Staging and Grading Requirements 
+Classification component
+Requirement in the 2018 framework
+Support available in BRAR
+Implication for research
+Indirect grading
+% bone loss/age with thresholds for A, B, C
+Strong support through BRAR formula and identical threshold logic
+BRAR can directly support radiographic indirect grading
+Stage I–II severity split
+Radiographic bone loss <15% vs 15–33%
+Likely supportable if tooth-level radiographic loss is re-expressed using official thresholds
+Requires careful relabeling protocol
+Stage III radiographic severity
+Bone loss extending to mid-third and beyond
+Potentially supportable from panoramic severity patterns
+More feasible than full Stage IV
+Stage IV complexity
+Advanced complexity, rehabilitation need, severe dysfunction, extensive periodontitis-related tooth loss
+Partial structural hints only; full clinical context is missing
+Full clinical Stage IV cannot be assigned confidently from BRAR alone
+Grade modifiers
+Smoking and HbA1c can shift grade
+Not part of the core published BRAR variables
+Best described as indirect radiographic grade unless modifier data are added
+Tooth-loss attribution
+Tooth loss due specifically to periodontitis
+Missing teeth are recorded, cause attribution is not explicit in the public description
+Causal attribution remains a major limitation for stage escalation
+
+
+
+2.6 Summary
+
+
+Taken together, the reviewed literature establishes four main points that directly shape the rationale of this thesis. First, contemporary periodontitis diagnosis remains fundamentally clinical-radiographic rather than purely radiographic. Salvi et al. (2023), Jacobs et al. (2024), Fidyawati et al. (2024), and Machado et al. (2020) shows that radiographs are indispensable for assessing structural bone loss, but they do not replace clinical information such as probing depth, bleeding on probing, clinical attachment loss, mobility, furcation involvement, and functional impairment. This distinction is essential because many AI studies operate only on radiographic data while using terms such as diagnosis, staging, or grading that originate from a broader clinical framework.
+Second, the 2018 classification framework provides the conceptual foundation for all contemporary work on periodontitis stage and grade. Tonetti et al. (2018) define stage as a combination of severity, extent, and treatment complexity, while grade reflects progression risk and may be estimated indirectly through the percentage of bone loss relative to age. However, later implementation studies show that the framework is not always simple to apply. West et al. (2025) identify practical barriers and diagnostic gray zones, while Marini et al. (2021) demonstrate that even trained human examiners do not always agree when assigning stage, extent, and grade. These findings are important for AI research because they show that classification difficulty is not only a technical machine-learning problem; it is also a problem of clinical definition, documentation quality, and label consistency.
+Third, the AI literature shows strong potential but also substantial methodological unevenness. Systematic reviews by Li et al. (2023), Lee et al. (2025), Khubrani et al. (2025), Zhang et al. (2025), Ferrara et al. (2025), and Chatzopoulos et al. (2025) indicate that deep-learning models can achieve promising diagnostic and classification performance. At the same time, these reviews repeatedly identify weaknesses such as single-center datasets, limited external validation, missing demographic information, inconsistent reporting, and incomplete alignment between radiographic labels and the full 2018 classification criteria. Therefore, reported accuracy values must be interpreted cautiously. A model trained and tested on internally labeled radiographs is not methodologically equivalent to a model validated across centers, populations, and annotation protocols.
+Fourth, primary AI studies show that model performance depends strongly on imaging modality, disease severity, and annotation design. Panoramic studies such as Shon et al. (2022), Li et al. (2025), and Al Husaini et al. (2025) are particularly relevant for broad staging or grading tasks because panoramic radiographs capture the whole dentition and support patient-level severity estimation. Periapical studies such as Chen et al. (2024), Dujic et al. (2023), and Ameli et al. (2024) are more closely connected to precise measurement tasks because they allow clearer visualization of local landmarks such as the CEJ, apex, and alveolar crest. Bitewing research, represented by Erturk et al. (2025), further supports the value of localized interproximal assessment. Meanwhile, Kurt-Bayrakdar et al. (2024) shows that different radiographic targets are not equally learnable: horizontal bone loss is detected more reliably than vertical defects, which are clinically important but more difficult to model. These findings explain why advanced disease is generally easier to classify than early disease and why imaging modality must be matched carefully to the intended AI task.
+The dataset literature further clarifies the direction of the field. Rasnayaka et al. (2025) introduced DenPAR as a landmark-rich periapical dataset containing segmentation masks, CEJ points, apex points, alveolar bone-level annotations, and patient metadata. Its value lies in supporting geometry-aware measurement pipelines rather than simple image-level classification. Xia et al. (2025), by contrast, introduced BRAR as a multimodal panoramic dataset centered on age-adjusted bone resorption grading. BRAR is especially important for this thesis because its central formula, based on radiographic bone loss relative to root length and age, is structurally close to the indirect grading logic of the 2018 framework. This makes BRAR more naturally aligned with grading than with full clinical staging, although its panoramic radiographs and tooth-level annotations may still support radiographic stage proxies.
+Overall, the literature shows a clear movement from simple disease detection toward clinically structured, measurement-aware AI systems. However, it also shows that the main challenge is no longer only whether a neural network can classify radiographs with high accuracy. The more important question is whether the dataset labels, annotation strategy, imaging modality, validation design, and clinical classification framework are aligned. This thesis is positioned within that gap. It builds on the growing evidence that radiographic AI can support periodontal assessment, while recognizing that guideline-faithful staging and grading require careful interpretation of what the available image data can and cannot legitimately represent.
