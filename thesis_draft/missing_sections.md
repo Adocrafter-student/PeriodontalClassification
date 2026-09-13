@@ -52,6 +52,12 @@ Table 4.1. Distribution of professor-assigned stage labels.
 | Stage IV | 49 | 19.44% |
 | Total | 252 | 100.00% |
 
+Figure 4.1 visualizes the imbalance in Table 4.1. Stage III accounts for more than half of the annotated subset, whereas Stage I contributes only ten images.
+
+![Distribution of professor-assigned stages](figures/figure_4_1_stage_distribution.png)
+
+Figure 4.1. Number of labeled images by professor-assigned stage. The chart describes the 252-image analysis subset, not the full BRAR archive. Source: executed comparison notebook.
+
 Age in the labeled subset ranged from 18 to 75 years, with a mean of 42.08 years, a sample standard deviation of 14.73 years, and a median of 38.5 years. The metadata column named Gender contained 132 records coded 0 and 120 coded 1. These codes were not interpreted as named categories without a verified coding definition. The image widths ranged from 2,771 to 2,976 pixels and the heights from 1,316 to 1,536 pixels. These statistics describe the analyzed files, not the full cohort reported in the source publication.
 
 ## 4.3. Metadata and annotation consistency
@@ -166,6 +172,12 @@ Table 6.1. Five-fold out-of-fold performance. Higher values are preferable excep
 | DINOv2, whole image | 60.71% | 45.89% | 0.4535 | 0.4167 | 0.5948 | 1.1343 |
 | DINOv2, whole image + regions | 63.10% | 49.90% | 0.4948 | 0.3889 | 0.6130 | 1.0539 |
 
+Figure 6.1 compares the three classification measures directly. The ordering by ordinary accuracy differs from that by balanced accuracy, while EfficientNet and regional DINOv2 have nearly identical macro F1.
+
+![Comparison of accuracy, balanced accuracy and macro F1](figures/figure_6_1_overall_metrics.png)
+
+Figure 6.1. Pooled out-of-fold accuracy, balanced accuracy, and macro F1 for the three methods. Values are shown as proportions and rounded to three decimal places. Each method is evaluated on the same 252 images. Source: executed comparison notebook.
+
 EfficientNet correctly classified 147 images, whole-image DINOv2 classified 153, and regional DINOv2 classified 159. For context, always predicting the most frequent label, Stage III, would classify 140 images correctly and achieve 55.56% accuracy, but only 25% balanced accuracy. The models therefore learned distinctions beyond the majority class, although their overall accuracy improvements over that simple reference were limited.
 
 ## 6.2. Stage-specific performance
@@ -179,15 +191,33 @@ Table 6.2. Recall by reference stage, with the number correctly classified.
 | III | 140 | 56.4% (79/140) | 67.1% (94/140) | 69.3% (97/140) |
 | IV | 49 | 77.6% (38/49) | 67.3% (33/49) | 69.4% (34/49) |
 
+The stage-specific recalls are displayed in Figure 6.2, and the corresponding confusion matrices are shown in Figure 6.3.
+
+![Recall by reference stage](figures/figure_6_2_stage_recall.png)
+
+Figure 6.2. Recall by professor-assigned stage. The low Stage I bars indicate that none of the methods reliably recognized this class within the available sample. Recall is expressed as a proportion. Source: executed comparison notebook.
+
+![Confusion matrices for EfficientNet and both DINOv2 variants](figures/figure_6_3_confusion_matrices.png)
+
+Figure 6.3. Out-of-fold confusion matrices. Rows represent reference stages and columns represent predicted stages. Cell values are image counts; the shared color scale supports comparison across methods. Source: executed comparison notebook.
+
 Stage I remained poorly recognized by every approach. Whole-image DINOv2 correctly identified none of these cases, while the regional variant identified one and EfficientNet identified two. Stage II recall was approximately one half for all methods. Regional DINOv2's advantage in ordinary accuracy primarily reflected improved recognition of Stage III, the largest class. EfficientNet retained higher recall for Stage IV.
 
 These results show why a single accuracy value would provide an incomplete interpretation. The DINOv2 variants classified more images correctly overall while achieving lower balanced accuracy than EfficientNet. Their gains were not distributed equally across the reference stages.
 
 ## 6.3. Uncertainty and variation across folds
 
-The conditional 95% bootstrap intervals for macro F1 were 0.4246–0.5574 for EfficientNet, 0.4037–0.4978 for whole-image DINOv2, and 0.4303–0.5635 for regional DINOv2. The regional DINOv2 minus EfficientNet difference was +0.0021, with a paired interval of −0.0689 to +0.0689. The whole-image DINOv2 minus EfficientNet difference was −0.0392, with an interval of −0.1172 to +0.0330. Neither comparison established a clear improvement over EfficientNet under this uncertainty analysis.
+The conditional 95% bootstrap intervals for macro F1 were 0.4246–0.5574 for EfficientNet, 0.4037–0.4978 for whole-image DINOv2, and 0.4303–0.5635 for regional DINOv2. The regional DINOv2 minus EfficientNet difference was +0.0021, with a paired interval of −0.0689 to +0.0689. The whole-image DINOv2 minus EfficientNet difference was −0.0392, with an interval of −0.1172 to +0.0330. Neither comparison established a clear improvement over EfficientNet under this uncertainty analysis. Figure 6.4 displays the paired differences and their intervals.
 
-Fold-specific macro F1 ranged from 0.3590 to 0.5456 for EfficientNet, from 0.4117 to 0.5077 for whole-image DINOv2, and from 0.3690 to 0.6314 for regional DINOv2. The variation was particularly substantial for the regional model. The apparent near-tie in pooled macro F1 should therefore not be interpreted as stable equivalence across partitions.
+![Paired macro-F1 differences with conditional uncertainty intervals](figures/figure_6_4_paired_intervals.png)
+
+Figure 6.4. Macro-F1 differences relative to EfficientNet, with conditional 95% intervals from 1,000 paired stratified patient-bootstrap resamples of fixed out-of-fold predictions. The dashed line marks zero difference. Both intervals cross zero; they do not include retraining variability or establish formal equivalence. Source: executed comparison notebook.
+
+Fold-specific macro F1 ranged from 0.3590 to 0.5456 for EfficientNet, from 0.4117 to 0.5077 for whole-image DINOv2, and from 0.3690 to 0.6314 for regional DINOv2. The variation was particularly substantial for the regional model. The apparent near-tie in pooled macro F1 should therefore not be interpreted as stable equivalence across partitions. Figure 6.5 shows how the model ranking changes across the shared folds.
+
+![Macro F1 across shared outer folds](figures/figure_6_5_fold_variability.png)
+
+Figure 6.5. Macro F1 in each of the five outer test folds. Lines connect results for matched fold identifiers, not successive training epochs. Each fold contains two Stage I cases. Source: executed comparison notebook.
 
 For EfficientNet, the internal validation procedure selected 6, 20, 17, 10, and 6 epochs for outer folds 0–4, respectively. For whole-image DINOv2, selected C values were 0.1, 10, 0.01, 0.01, and 0.01; the regional variant selected 0.01, 0.01, 1, 0.01, and 1. These choices were made within the development data and were not adjusted after observing the corresponding outer test predictions.
 

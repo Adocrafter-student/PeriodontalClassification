@@ -200,11 +200,12 @@ def document():
     print(f'Saved {path}')
     # Structural export checks: all figures embedded and all requested sections present.
     check = Document(path)
-    assert len(check.inline_shapes) == 3
+    expected_figures = sum(line.startswith('![') for line in lines)
+    assert len(check.inline_shapes) == expected_figures
     assert len(check.tables) == 3
     headings = [p.text for p in check.paragraphs if p.style.name == 'Heading 1']
     assert len(headings) == 8, headings
-    print(f'Verified {len(headings)} chapter/reference headings, 3 embedded diagrams, 3 tables.')
+    print(f'Verified {len(headings)} chapter/reference headings, {expected_figures} embedded figures, 3 tables.')
 
 
 if __name__ == '__main__':

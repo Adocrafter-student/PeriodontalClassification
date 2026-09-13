@@ -64,6 +64,13 @@ not imply it dominated all metrics or that DINOv2 was disproved in general.
 
 ## Diagrams
 
+All six charts from the executed comparison notebook are included in the draft:
+the class distribution is Figure 4.1 in Dataset, and five comparison charts are
+Figures 6.1–6.5 in Results (overall metrics, stage recall, confusion matrices,
+paired uncertainty intervals, and fold variability). Copies of the exact exported
+PNG charts are stored in `figures/`, so the document does not depend on temporary
+notebook export assets. Captions and in-text references accompany all charts.
+
 Three original methodology diagrams are embedded in the Word draft. Each is also
 available in `figures/` as PNG (300 dpi), SVG (editable vector), and PDF (vector).
 Editable diagram logic is provided in the corresponding `.mmd` Mermaid files.
